@@ -1,5 +1,6 @@
 package hu.proha.ilvoto.service
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -71,25 +72,54 @@ class EventRepository {
         })
     }
 
-    fun addDateOffer(eventId: String, dateOffer: DateOffer) {
+    fun addDateOffer(eventId: String, dateOffer: DateOffer, callback: (Boolean) -> Unit) {
         val key = database.child("events").child(eventId).child("dateOffers").push().key
         key?.let {
             database.child("events").child(eventId).child("dateOffers").child(it).setValue(dateOffer)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    Log.e("EventRepository", "Error adding date offer: ${it.message}")
+                    callback(false)
+                }
         }
     }
 
-    fun addVote(eventId: String, dateOfferId: String, vote: Vote) {
+    fun addVote(eventId: String, dateOfferId: String, vote: Vote, callback: (Boolean) -> Unit) {
         val key = database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").push().key
         key?.let {
             database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").child(it).setValue(vote)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    Log.e("EventRepository", "Error adding vote: ${it.message}")
+                    callback(false)
+                }
         }
     }
 
-    fun deleteDateOffer(eventId: String, dateOfferId: String) {
+    fun deleteDateOffer(eventId: String, dateOfferId: String, callback: (Boolean) -> Unit) {
         database.child("events").child(eventId).child("dateOffers").child(dateOfferId).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting date offer: ${it.message}")
+                callback(false)
+            }
     }
 
-    fun deleteVote(eventId: String, dateOfferId: String, vote: Vote) {
-        database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").child(vote.toString()).removeValue()
+    fun deleteVote(eventId: String, dateOfferId: String, voteId: String, callback: (Boolean) -> Unit) {
+        database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").child(voteId).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting vote: ${it.message}")
+                callback(false)
+            }
     }
+
 }
