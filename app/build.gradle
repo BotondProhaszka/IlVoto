@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'hu.proha.ilvoto'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "hu.proha.ilvoto"
@@ -31,12 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'

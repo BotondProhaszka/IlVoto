@@ -1,17 +1,34 @@
 package hu.proha.ilvoto
 
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
+import com.google.android.material.tabs.TabLayoutMediator
+import hu.proha.ilvoto.adapters.ViewsPagerAdapter
+import hu.proha.ilvoto.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val pagerAdapter = ViewsPagerAdapter(this)
+        binding.viewPager.adapter = pagerAdapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) {tab, position ->
+            tab.text = when(position){
+                0 -> "Profil"
+                1 -> "Események"
+                else -> ""
+            }
+        }.attach()
     }
 
 }
