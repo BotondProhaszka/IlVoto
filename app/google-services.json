@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "587273011818",
+    "project_id": "ilvoto-e25f0",
+    "storage_bucket": "ilvoto-e25f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587273011818:android:7ae4ffa384079b0dafc013",
+        "android_client_info": {
+          "package_name": "hu.proha.ilvoto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587273011818-4g2vgsak81o3ihbk6t30qgs8fddn54sf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfr4Ph3xyuVEIPgBi-d666Z-H6S2s5xZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587273011818-4g2vgsak81o3ihbk6t30qgs8fddn54sf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
