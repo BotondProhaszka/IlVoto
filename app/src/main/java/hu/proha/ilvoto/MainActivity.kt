@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) {tab, position ->
             tab.text = when(position){
-                0 -> "Profil"
-                1 -> "Események"
+                0 -> "👤"
+                1 -> "⚽🎮🎬"
                 else -> ""
             }
         }.attach()
