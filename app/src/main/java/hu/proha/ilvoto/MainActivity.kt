@@ -2,9 +2,11 @@ package hu.proha.ilvoto
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.tabs.TabLayoutMediator
 import hu.proha.ilvoto.adapters.ViewsPagerAdapter
 import hu.proha.ilvoto.databinding.ActivityMainBinding
+import hu.proha.ilvoto.service.EventRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +14,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

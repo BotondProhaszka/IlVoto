@@ -1,6 +1,8 @@
 package hu.proha.ilvoto.data
 
-enum class Vote {
-    Up,
-    Down
-}
+data class Vote (
+    var id : String = "",
+    var upVote: Boolean
+)
+
+

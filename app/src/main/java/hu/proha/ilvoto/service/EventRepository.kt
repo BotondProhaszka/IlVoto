@@ -5,12 +5,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import hu.proha.ilvoto.data.DateOffer
-import hu.proha.ilvoto.data.Event
-import hu.proha.ilvoto.data.Vote
+import hu.proha.ilvoto.data.*
 
 class EventRepository {
-    private val database = FirebaseDatabase.getInstance().reference
+    private val database = FirebaseDatabase.getInstance("https://ilvoto-e25f0-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
 
     fun addEvent(event: Event) {
@@ -122,4 +120,106 @@ class EventRepository {
             }
     }
 
+    fun createGroup(group: Group, callback: (Boolean) -> Unit){
+        val key = database.child("groups").push().key
+        key?.let {
+            database.child("groups").child(it).setValue(group)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener{
+                    Log.e("EventRepository", "Error creating group: ${it.message}")
+                    callback(false)
+                }
+        }
+    }
+
+    fun deleteGroup(groupId: String, callback: (Boolean) -> Unit){
+
+        database.child("groups").child(groupId).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting group: ${it.message}")
+                callback(false)
+            }
+    }
+
+    fun addMemberToGroup(groupId: String, memberEmail: String, callback: (Boolean) -> Unit) {
+        val key = database.child("groups").child(groupId).child("members").push().key
+        key?.let {
+            database.child("groups").child(groupId).child("members").child(it).setValue(memberEmail)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    Log.e("EventRepository", "Error adding member to group: ${it.message}")
+                    callback(false)
+                }
+        }
+    }
+
+    fun deleteMemberFromGroup(groupId: String, memberEmail: String, callback: (Boolean) -> Unit) {
+        database.child("groups").child(groupId).child("members").child(memberEmail).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting member from group: ${it.message}")
+                callback(false)
+            }
+    }
+
+    fun createProfile(profile: Profile, callback: (Boolean) -> Unit) {
+        val key = database.child("profiles").push().key
+        key?.let {
+            profile.id = key
+            database.child("profiles").child(it).setValue(profile)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    Log.e("EventRepository", "Error adding profile: ${it.message}")
+                    callback(false)
+                }
+        }
+    }
+
+    fun deleteProfile(key: String, callback: (Boolean) -> Unit) {
+            database.child("profiles").child(key).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting profile: ${it.message}")
+                callback(false)
+            }
+    }
+
+
+    fun addGroupToMember(groupId: String, memberEmail: String, callback: (Boolean) -> Unit) {
+        val key = database.child("profiles").child(memberEmail).child("groups").push().key
+        key?.let {
+            database.child("profiles").child(memberEmail).child("groups").child(it).setValue(groupId)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    Log.e("EventRepository", "Error adding group to member: ${it.message}")
+                    callback(false)
+                }
+        }
+    }
+
+    fun deleteGroupToMember(groupId: String, memberEmail: String, callback: (Boolean) -> Unit) {
+        database.child("profiles").child(memberEmail).child("groups").child(groupId).removeValue()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                Log.e("EventRepository", "Error deleting group from member: ${it.message}")
+                callback(false)
+            }
+    }
 }

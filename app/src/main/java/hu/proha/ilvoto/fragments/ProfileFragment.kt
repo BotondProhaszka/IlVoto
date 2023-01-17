@@ -30,7 +30,7 @@ class ProfileFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
         //init dolgok
         initRecyclerView()
         initButton()
-        binding.userEmail.text = "test.elek@gmail.com"
+        binding.userEmail.text = "teszt.elek@gmail.com"
     }
 
     private fun initButton() {
@@ -42,8 +42,8 @@ class ProfileFragment : Fragment(), GroupsAdapter.OnGroupSelectedListener {
         adapter = GroupsAdapter(this)
         binding.groupList.adapter = adapter
 
-        adapter.addGroup(Group("Fiúk", arrayListOf(), ""))
-        adapter.addGroup(Group("Lányok", arrayListOf(), "Anna"))
+        adapter.addGroup(Group("1", "Fiúk", arrayListOf(), ""))
+        adapter.addGroup(Group("2","Lányok", arrayListOf(), "Anna"))
 
     }
 
