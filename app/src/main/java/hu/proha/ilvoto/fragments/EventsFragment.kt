@@ -22,7 +22,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnEventSelectedListener {
     private lateinit var binding: FragmentEventsBinding
     private lateinit var adapter: EventsAdapter
 
-    private var eventRepository = EventRepository()
+    private var eventRepository = EventRepository.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +37,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnEventSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initButton()
-        testing()
+        //testing()
     }
 
     private fun initRecyclerView() {
@@ -65,9 +65,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnEventSelectedListener {
         eventRepository.createProfile(profile){
             Log.d("DEBUG", "Profile: $it")
         }
-        eventRepository.deleteProfile(profile.id) {
-            Log.d("DEBUG", "Profile: ${it}")
-        }
+        Log.d("DEBUG", profile.id)
     }
 
 }

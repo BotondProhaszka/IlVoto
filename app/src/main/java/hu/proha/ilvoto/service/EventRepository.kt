@@ -8,12 +8,25 @@ import com.google.firebase.database.ValueEventListener
 import hu.proha.ilvoto.data.*
 
 class EventRepository {
+
+    companion object {
+        private var instance: EventRepository? = null
+        fun getInstance(): EventRepository {
+            if (instance == null) {
+                instance = EventRepository()
+            }
+            return instance!!
+        }
+    }
+
+
     private val database = FirebaseDatabase.getInstance("https://ilvoto-e25f0-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
 
     fun addEvent(event: Event) {
         val key = database.child("events").push().key
         key?.let {
+            event.id = it
             database.child("events").child(it).setValue(event)
         }
     }
@@ -73,6 +86,7 @@ class EventRepository {
     fun addDateOffer(eventId: String, dateOffer: DateOffer, callback: (Boolean) -> Unit) {
         val key = database.child("events").child(eventId).child("dateOffers").push().key
         key?.let {
+            dateOffer.id = it
             database.child("events").child(eventId).child("dateOffers").child(it).setValue(dateOffer)
                 .addOnSuccessListener {
                     callback(true)
@@ -87,6 +101,7 @@ class EventRepository {
     fun addVote(eventId: String, dateOfferId: String, vote: Vote, callback: (Boolean) -> Unit) {
         val key = database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").push().key
         key?.let {
+            vote.id = it
             database.child("events").child(eventId).child("dateOffers").child(dateOfferId).child("votes").child(it).setValue(vote)
                 .addOnSuccessListener {
                     callback(true)
@@ -123,6 +138,7 @@ class EventRepository {
     fun createGroup(group: Group, callback: (Boolean) -> Unit){
         val key = database.child("groups").push().key
         key?.let {
+            group.id = it
             database.child("groups").child(it).setValue(group)
                 .addOnSuccessListener {
                     callback(true)
@@ -135,7 +151,6 @@ class EventRepository {
     }
 
     fun deleteGroup(groupId: String, callback: (Boolean) -> Unit){
-
         database.child("groups").child(groupId).removeValue()
             .addOnSuccessListener {
                 callback(true)
